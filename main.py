@@ -122,19 +122,19 @@ window.config(padx=100, pady=100, bg=BACKGROUND_COLOR)
 # window.geometry(WIDTH, HEIGHT)
 
 
-canvas = Canvas(window, width=500, height=500, bg="white")
-canvas.grid(column=0, row=0, columnspan=2)
+canvas = Canvas(window, width=600, height=600, bg="white")
+canvas.grid(column=0, row=0)
 
 """.................................Buttons ......................................"""
 
 upload_button = Button(text="Upload Image", bg="blue",command= lambda:upload_image(), fg="white")
-upload_button.grid(column=0, row=1)
+upload_button.grid(column=0, row=1, padx=5, pady=5)
 
-watermark_button = Button(text="Add Watermark", bg="pink",command=create_watermark,  fg="black")
-watermark_button.grid(column=1, row=1)
+watermark_button = Button(text="Add Watermark", bg="pink",command=lambda:create_watermark(),  fg="black")
+watermark_button.grid(column=0, row=2, padx=5, pady=5)
 
-save_button = Button(text="Save Image", bg="green",command=save_image, fg="white")
-save_button.grid(column=0, row=2)
+save_button = Button(text="Save Image", bg="green",command=lambda:save_image(), fg="white")
+save_button.grid(column=0, row=3, padx=5, pady=5)
 
 
 
