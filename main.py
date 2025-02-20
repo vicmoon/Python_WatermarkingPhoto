@@ -7,6 +7,7 @@ import glob, os, shutil
 BACKGROUND_COLOR = "#B1DDC6"
 HEIGHT = 1080
 WIDTH = 1920
+watermarked_image = None
 
 
 def upload_image():
@@ -38,11 +39,13 @@ def upload_image():
     
 
 def create_watermark():
+    global watermarked_image
+
     if not hasattr(canvas, "file_path"):
         messagebox.showerror("Error", "No image uploaded!")
         return
 
-    watermark_text = "©VictoriaMunteanu"
+    watermark_text = "©Victoria2025"
 
     # Open image and ensure it's in RGBA mode
     img = Image.open(canvas.file_path).convert("RGBA")
@@ -84,28 +87,30 @@ def create_watermark():
     canvas.create_image(canvas.winfo_width() // 2, canvas.winfo_height() // 2, image=tk_watermark, anchor="center")
     canvas.image = tk_watermark  # Prevent garbage collection
 
+    watermarked_image = watermarked
 
 
-def save_image(save_dir="Downloads"):
-    if not hasattr(canvas, "image"):
-        messagebox.showerror("Error", "No image to save!")
+
+def save_image():
+    global watermarked_image
+
+    if watermarked_image is None:
+        messagebox.showerror("Error", "No watermarked image to save!")
         return
 
-    os.makedirs(save_dir, exist_ok=True)
-    saved_path = os.path.join(save_dir, "watermarked_image.jpg")
+    # Ask user where to save the image
+    file_path = filedialog.asksaveasfilename(
+        defaultextension=".png",
+        filetypes=[("PNG Files", "*.png"), ("JPEG Files", "*.jpg"), ("All Files", "*.*")]
+    )
 
-    # Save the watermarked image
-    img = Image.open(canvas.file_path).convert("RGBA")
+    if file_path:
+        # Convert to RGB before saving to JPEG format (JPEG does not support RGBA)
+        if file_path.lower().endswith(".jpg") or file_path.lower().endswith(".jpeg"):
+            watermarked_image = watermarked_image.convert("RGB")  # Ensure RGB mode for JPEG
 
-     # Convert RGBA to RGB (removes transparency)
-    img = img.convert("RGB")
-
-
-    # Save the image directly instead of copying
-    img.save(saved_path, "JPEG")
-
-    messagebox.showinfo("Success", f"Image saved to {saved_path}")
-    print(f"Image saved to {saved_path}")
+        watermarked_image.save(file_path)
+        messagebox.showinfo("Success", f"Image saved to {file_path}")
 
 
 """.................................UI Setup ......................................"""
