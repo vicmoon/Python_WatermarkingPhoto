@@ -10,6 +10,9 @@ WIDTH = 1920
 watermarked_image = None
 
 
+"""................................. Upload Image ......................................"""
+
+
 def upload_image():
  
     try:
@@ -36,7 +39,11 @@ def upload_image():
     except UnidentifiedImageError:
         messagebox.showinfo(title="Upload Error", 
             message="Image could not be read.")
-    
+        
+
+
+    """.................................Create Watermark ......................................"""
+
 
 def create_watermark():
     global watermarked_image
@@ -89,6 +96,8 @@ def create_watermark():
 
     watermarked_image = watermarked
 
+
+""".................................Save Watermarked Image ......................................"""
 
 
 def save_image():
